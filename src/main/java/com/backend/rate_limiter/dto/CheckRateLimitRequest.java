@@ -5,10 +5,10 @@ public class CheckRateLimitRequest {
     public  CheckRateLimitRequest(){
 
     }
-    public void setclientKey(String clientKey){
+    public void setClientKey(String clientKey){
         this.clientKey=clientKey;
     }
-    public String getclientKey(){
+    public String getClientKey(){
         return clientKey;
     }
     
