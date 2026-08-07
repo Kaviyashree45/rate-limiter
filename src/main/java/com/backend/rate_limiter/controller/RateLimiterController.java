@@ -9,15 +9,18 @@ public class RateLimiterController {
     final private RateLimiterService ratelimiterservice;
     public RateLimiterController(RateLimiterService ratelimiterservice){
         this.ratelimiterservice=ratelimiterservice;
+        System.out.println(">>> RateLimiterController CREATED <<<");
     }
     @PostMapping("/check")
     public CheckRateLimitResponse checkRateLimit( @RequestBody CheckRateLimitRequest request){
-            System.out.println("Controller reached");
-            System.out.println(request.getClientKey());
-        boolean isAllowed=ratelimiterservice.checkRequest(request.getClientKey());
+            boolean isAllowed=ratelimiterservice.checkRequest(request.getClientKey());
+            System.out.println("Controller received = " + isAllowed);
         return new CheckRateLimitResponse(isAllowed);
     }
-
+@GetMapping("/ping")
+public String ping() {
+    return "PING";
+}
 
     
 }

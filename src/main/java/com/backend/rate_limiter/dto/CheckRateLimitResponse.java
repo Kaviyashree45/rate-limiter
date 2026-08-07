@@ -8,7 +8,7 @@ public class CheckRateLimitResponse {
     public CheckRateLimitResponse(boolean allowed){
         this.allowed=allowed;
     }
-    public void setIsAllowed(boolean allowed){
+    public void setAllowed(boolean allowed){
         this.allowed=allowed;
     }
     public boolean isAllowed(){

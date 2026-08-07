@@ -1,5 +1,6 @@
 package com.backend.rate_limiter.dto;
 
+
 public class CheckRateLimitRequest {
     private String clientKey;
     public  CheckRateLimitRequest(){
