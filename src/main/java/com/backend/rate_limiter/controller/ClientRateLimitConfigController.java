@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody; 
 import com.backend.rate_limiter.service.ClientRateLimitConfigService;
+
+import jakarta.validation.Valid;
+
 import com.backend.rate_limiter.dto.CreateClientConfigRequest;
 import com.backend.rate_limiter.entity.ClientRateLimitConfig;
 
@@ -18,8 +21,8 @@ public class ClientRateLimitConfigController {
     }
 
     @PostMapping
-    public ClientRateLimitConfig createConfig(@RequestBody CreateClientConfigRequest request){
-        return service.createConfig(request);
+    public ClientRateLimitConfig createConfig(@Valid @RequestBody CreateClientConfigRequest request){
+        return service.createConfig(request);  
     }
     
 }

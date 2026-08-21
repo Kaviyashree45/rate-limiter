@@ -32,13 +32,21 @@ public class TokenBucket {
     public void setLastRefillTime(Instant LastRefillTime){
         this.lastRefillTime=LastRefillTime;
     }
-    public synchronized boolean allowRequest(){
+    public synchronized RateLimitResult allowRequest(){
            refillTokens();
             if(availableTokens>0){
                 availableTokens--;
-                return true;
+                return new RateLimitResult(
+                    true,
+                    capacity,
+                    availableTokens
+                );
             }
-            return false;
+            return new RateLimitResult(
+                false, 
+                capacity, 
+                availableTokens
+            );
     }
     public void refillTokens(){
         Instant now=Instant.now();
@@ -50,5 +58,36 @@ public class TokenBucket {
         availableTokens=Math.min(capacity,availableTokens+toAddTokens);
         lastRefillTime=now;
     }
-    
+    public synchronized long getRetryAfterSeconds(){
+        refillTokens();
+        if(availableTokens>0){
+            return 0;
+        }
+        if(refillRate<=0){
+            return -1;
+        }
+        return (long)Math.ceil(1.0/refillRate);
+        
+
+    }    
+
+public static class RateLimitResult{
+    private final boolean allowed;
+    private final int remaining;
+    private final int limit;
+    public RateLimitResult(boolean allowed,int limit,int remaining) {
+        this.allowed = allowed;
+        this.limit = limit;
+        this.remaining = remaining;
+    }
+    public boolean isAllowed(){
+        return allowed;
+    }
+    public int getRemaining(){
+        return remaining;
+    }
+    public int getLimit(){
+        return limit;
+    }
+}
 }
